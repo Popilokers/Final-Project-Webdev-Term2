@@ -35,7 +35,7 @@ if($statement->execute()){
                 <p><?=$row['caption']?></p>
                 <img src="" alt="image is supposed to be here"/>
             </div>
-        <?php endwhile ?>
+        <?php endwhile ?> 
     </div>
 </body>
 </html>

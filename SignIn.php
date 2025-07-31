@@ -18,5 +18,5 @@
             <input type="text" name="password"/>
         </fieldset>
     </form>
-</body>
+</body> 
 </html>

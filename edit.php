@@ -46,16 +46,16 @@ else{
 
     $query = "INSERT INTO posts(title, caption, category_id) 
               VALUES (:title, :caption, :category_id)";
-    }
+    } 
 
-
+ 
 if(!empty($_POST['title']) && !empty($_POST['caption'])){
         
-        $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
-        $caption = filter_input(INPUT_POST, 'caption', FILTER_SANITIZE_STRING);
+        $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
+        $caption = filter_input(INPUT_POST, 'caption', FILTER_SANITIZE_SPECIAL_CHARS);
         $category = filter_input(INPUT_POST, 'category', FILTER_SANITIZE_NUMBER_INT);
         
-        // $image = filter_input(INPUT_GET, 'image');
+        // $image = filter_input(INPUT_GET, 'image'); 
 
         
         $statement = $db->prepare($query);

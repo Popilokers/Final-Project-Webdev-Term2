@@ -2,6 +2,7 @@
 
 require('connect.php');
 
+
 $query = "SELECT * FROM posts ORDER BY updated_at DESC";
 $statement = $db->prepare($query);
 

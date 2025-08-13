@@ -17,15 +17,18 @@ $command = "";
 
 if(isset($_POST['command'])){
     $command = $_POST['command']; //Update or Delete
+    
 }
 else{
-    $command = "";
+    $command = "New Post";
 }
 
 if(isset($_GET['post_id'])){
 
     $mode = "edit";
-
+    echo "post id: " . $_GET['post_id'];
+    echo "<br> action: " . $command;
+    echo "<br> query: " .
     //defines $id early to use to edit an existing blog
     $id = filter_input(INPUT_GET, 'post_id', FILTER_SANITIZE_NUMBER_INT);
 
@@ -38,33 +41,36 @@ if(isset($_GET['post_id'])){
 
      $query = "UPDATE posts SET title = :title, caption = :caption, category_id = :category_id WHERE post_id = :post_id"; 
      $post_id = filter_input(INPUT_GET, 'post_id');
-     $statement->bindValue(':post_id', $post_id);
      
 }
 else{
     $mode = "newPost";
 
+    echo "new post";
     $query = "INSERT INTO posts(title, caption, category_id) 
               VALUES (:title, :caption, :category_id)";
     } 
 
  
-if(!empty($_POST['title']) && !empty($_POST['caption'])){
+if(!empty($_POST['title']) && !empty($_POST['caption']) && !empty($_POST['category_id'])){
         
         $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
         $caption = filter_input(INPUT_POST, 'caption', FILTER_SANITIZE_SPECIAL_CHARS);
-        $category = filter_input(INPUT_POST, 'category', FILTER_SANITIZE_NUMBER_INT);
+        $category = filter_input(INPUT_POST, 'category_id', FILTER_SANITIZE_NUMBER_INT);
         
         // $image = filter_input(INPUT_GET, 'image'); 
 
         
         $statement = $db->prepare($query);
-
-        //bind values to avoids CSI
+        
         $statement->bindValue(':title', $title);
         $statement->bindValue(':caption', $caption);
         $statement->bindValue(':category_id', $category);
 
+        if($command == "update"){
+            $statement->bindValue(':post_id', $post_id);
+        }
+        
          if($command == "delete"){
     
             $query = "DELETE FROM posts WHERE post_id = :post_id";
@@ -80,8 +86,8 @@ if(!empty($_POST['title']) && !empty($_POST['caption'])){
         
         if($statement->execute()){
         header('Location: index.php');
-        
     }
+    
 }
 
 
@@ -123,7 +129,11 @@ if(!empty($_POST['title']) && !empty($_POST['caption'])){
             <br>
             <label>Category</label>
             <br>
-            <input type="number" name="category" value="<?=$row['category_id']?>"/>
+            <?php if($mode == "edit"):?>
+            <input type="number" name="category_id" value="<?=$row['category_id']?>"/>
+            <?php else:?>
+            <input type="number" name="category_id"/>    
+            <?php endif ?>
             <br>
             <label>Image</label>
             <br>

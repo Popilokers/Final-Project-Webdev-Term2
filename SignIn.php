@@ -10,12 +10,20 @@
     <title>Sign In</title>
 </head>
 <body>
-    <form method="Post" action="index.php">
+    <form method="Post" action="#">
         <fieldset>
-            <label>Username</label>
-            <input type="text" name="username"/>
+            <label>Username or Email</label>
+            <br>
+            <input type="text" name="usernameORemail"/>
+            <br>
+            <br>
             <label>Password</label>
+            <br>
             <input type="text" name="password"/>
+            <br>
+            <br>
+            <button type="submit">Sign In</button>
+
         </fieldset>
     </form>
 </body> 

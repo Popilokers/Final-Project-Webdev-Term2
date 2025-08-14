@@ -3,6 +3,7 @@
 require_once('connect.php');
 
 session_start();
+ 
 
 echo "username:". $_SESSION['username'] ."<br> account type:". $_SESSION['account_type'];
 
@@ -12,6 +13,14 @@ $statement = $db->prepare($query);
 if($statement->execute()){
     //i have no clue why but this needs to be in an if statement for the code to work
     // $statement->execute(); does not work 
+}
+
+if(!isset($_SESSION['is_loggedin']) || $_SESSION['is_loggedin'] == false){
+    header('Location: SignIn.php');
+}
+
+function logout(){
+    return true;
 }
 
 ?>
@@ -24,24 +33,36 @@ if($statement->execute()){
     <title>Home Page</title>
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="index.php">Home Page</a> </li>
-            <li>Personal Page</li>
-            <li><a href="edit.php">New Post</a></li>
-        </ul>
-    </nav>
-    <div id="post_list">
-        <?php while($row = $statement->fetch()):?>
-            <div class="post" style="border: black solid 2px; padding: 5px">
-                <h2><a href=""><?=$row['title']?></a></h2>
-                <?php if($_SESSION['account_type'] == "admin"):?>
-                    <p><a href="edit.php?post_id=<?=$row['post_id']?>">edit</a></p>
-                <?php endif ?>
-                <p><?=$row['caption']?></p>
-                <img src="" alt="image is supposed to be here"/>
-            </div>
-        <?php endwhile ?> 
-    </div>
+
+        <form method="post" action="#" style="text-align: right;">
+
+
+            <button onclick=logout()>log out</button>
+            <?php if(logout()):?>
+                <?php
+                    $_SESSION['is_loggedin'] = false;
+                ?>
+            <?php endif?>
+        </form>
+        <nav>
+            <ul>
+                <li><a href="index.php">Home Page</a> </li>
+                <li>Personal Page</li>
+                <li><a href="edit.php">New Post</a></li>
+            </ul>
+            
+        </nav>
+        <div id="post_list">
+            <?php while($row = $statement->fetch()):?>
+                <div class="post" style="border: black solid 2px; padding: 5px">
+                    <h2><a href=""><?=$row['title']?></a></h2>
+                    <?php if($_SESSION['account_type'] == "admin"):?>
+                        <p><a href="edit.php?post_id=<?=$row['post_id']?>">edit</a></p>
+                    <?php endif ?>
+                    <p><?=$row['caption']?></p>
+                    <img src="" alt="image is supposed to be here"/>
+                </div>
+            <?php endwhile ?> 
+        </div>
 </body>
 </html>

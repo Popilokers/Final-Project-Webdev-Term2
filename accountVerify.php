@@ -34,16 +34,16 @@
         <?php while($row = $statement->fetch()):?>
             <?php if ($username == $row['username'] || $username == $row['email']):?>
             <?php else: ?>
-                <h1>ERROR: username or email is incorrect</h1>
+                <h1>ERROR: username or email does not exist is incorrect</h1>
                 <?php $strikes++;?>
             <?php endif?>
 
             <?php if ($password == $row['password']):?>
             <?php else:?>
-                <h1>ERROR: password does not exist is incorrect</h1>
+                <h1>ERROR: password does not exist or is incorrect</h1>
                 <?php $strikes++;?>
             <?php endif?>
-
+            
             <?php if($strikes == 0 || $account_type == "guest"):?>
                 <?php if($account_type != "guest"):?>
                     <?php $account_type = $row['type']?>
@@ -52,7 +52,7 @@
                         $_SESSION['username'] = $username;
                         $_SESSION['user_id'] = $row['user_id'];
                         $_SESSION['account_type'] = $account_type;
-
+                        $_SESSION['is_loggedin'] = true;
                 ?>
                 <?php header('Location: index.php')?>
             <?php endif?>

@@ -28,6 +28,7 @@
     <title>Document</title>
 </head>
 <body>
+    <h1>Please go back to the previous page to re-enter username and/or password</h1>
     <?php if(empty($username) || empty($password)):?>
         <h1 style="color: red;">ERROR: Username or Password fields are empty</h1>
     <?php else: ?>

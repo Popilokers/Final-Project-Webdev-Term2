@@ -1,7 +1,15 @@
 <?php
 
 session_start();
-
+if(isset($_SESSION['is_loggedin'])){
+    $_SESSION['is_loggedin'] = false;
+}
+if(isset($_SESSION['account_type'])){
+    $_SESSION['account_type'] = "";
+}
+if(isset($_SESSION['username'])){
+    $_SESSION['username'] = "";
+}
 ?>
  
 <!DOCTYPE html>

@@ -1,5 +1,6 @@
 <?php
 
+// resets session values when "log out"
 session_start();
 if(isset($_SESSION['is_loggedin'])){
     $_SESSION['is_loggedin'] = false;

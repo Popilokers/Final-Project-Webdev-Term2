@@ -1,22 +1,23 @@
 <?php
 
-require_once('connect.php');
-
 session_start();
- 
-$query = "SELECT * FROM posts ORDER BY updated_at DESC";
-$statement = $db->prepare($query);
 
-if($statement->execute()){
-    //i have no clue why but this needs to be in an if statement for the code to work
-    // $statement->execute(); does not work 
-}
-
+//redirects user to log in page is not logged in
 if(!isset($_SESSION['is_loggedin']) || $_SESSION['is_loggedin'] == false){
     header('Location: SignIn.php');
 }
 
+require_once('connect.php');
 
+
+
+$sort = isset($_POST['sort']) ? $_POST['sort'] : "ORDER BY uploaded_at DESC";
+
+
+
+
+
+echo $sort;
 ?>
 
 <!DOCTYPE html>
@@ -27,25 +28,49 @@ if(!isset($_SESSION['is_loggedin']) || $_SESSION['is_loggedin'] == false){
     <title>Home Page</title>
 </head>
 <body>
-
+    
+        <!-- logs out the user -->
         <form method="post" action="SignIn.php" style="text-align: right;">
-
-
             <button onclick=logout()>log out</button>
         </form>
+
+        <!-- accessible pages -->
         <nav>
             <ul>
                 <li><a href="index.php">Home Page</a> </li>
+
+                <!-- checks for authority -->
                 <?php if($_SESSION['account_type'] == "admin"):?>
                     <li><a href="edit.php">New Post</a></li>
                 <?php endif?>
             </ul>
             
         </nav>
+        
+        <form action="index.php" method="post">
+            <select name="sort">
+                <option value="ORDER BY title ASC">A-Z ascending</option>
+                <option  value="ORDER BY title DESC">A-Z descending</option>
+                <option  value="ORDER BY uploaded_at ASC">Date ascending</option>
+                <option  value="ORDER BY uploaded_at DESC">Date descending</option>
+            </select>
+            <button type="submit">sort</button>
+        </form>
+        
+        <?php
+        $query = "SELECT * FROM posts " . $sort;
+        $statement = $db->prepare($query);
+        if($statement->execute()){
+}
+        ?>
         <div id="post_list">
             <?php while($row = $statement->fetch()):?>
                 <div class="post" style="border: black solid 2px; padding: 5px">
+
+                    <!-- linked to focused post -->
                     <h2><a href="post.php?id=<?=$row['post_id']?>"><?=$row['title']?></a></h2>
+
+                    <!-- checks for authority -->
                     <?php if($_SESSION['account_type'] == "admin"):?>
                         <p><a href="edit.php?post_id=<?=$row['post_id']?>">edit</a></p>
                     <?php endif ?>

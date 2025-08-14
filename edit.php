@@ -15,6 +15,7 @@ $post_id = "";
 $query = "";
 $row = [];
 
+// determines if user is making a new post or editing an existing post
 if (isset($_GET['post_id'])) {
     $mode = "edit";
     $post_id = filter_input(INPUT_GET, 'post_id', FILTER_SANITIZE_NUMBER_INT);
@@ -25,7 +26,7 @@ if (isset($_GET['post_id'])) {
 
     $query = "UPDATE posts SET title = :title, caption = :caption, category_id = :category_id WHERE post_id = :post_id"; 
 } else {
-    $mode = "newPost";
+    // new post
     $query = "INSERT INTO posts(title, caption, category_id, image) 
               VALUES (:title, :caption, :category_id, :image)";
 }
@@ -113,10 +114,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </nav>
     <form action="#" method="post"  enctype="multipart/form-data">
         <fieldset>
+            
             <label>Title</label>
             <br>
+            <!-- sets the values of the post when editing -->
             <?php if($mode == "edit"):?>
                 <input type="text" name="title" value="<?= htmlspecialchars($row['title'], ENT_QUOTES) ?>"/>
+            <!-- shows form fields when new post-->
             <?php else:?>
                 <input type="text" name="title"/>
             <?php endif ?>

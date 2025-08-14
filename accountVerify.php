@@ -6,12 +6,20 @@
    $password = trim(filter_input(INPUT_POST, 'password', FILTER_SANITIZE_SPECIAL_CHARS));
    $account_type = $_POST['account_type'];
    
+   if($account_type == "guest"){
+    $username = "1";
+    $password = "1";
+   }
    $query = "SELECT * FROM users ORDER BY user_id DESC";
    $statement = $db->prepare($query);
 
    if($statement->execute()){
+
    }
+
    $strikes = 0;
+
+
 ?> 
 
 <!DOCTYPE html>

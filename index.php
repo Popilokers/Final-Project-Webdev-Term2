@@ -16,8 +16,6 @@ $sort = isset($_POST['sort']) ? $_POST['sort'] : "ORDER BY uploaded_at DESC";
 
 
 
-
-echo $sort;
 ?>
 
 <!DOCTYPE html>
@@ -46,16 +44,17 @@ echo $sort;
             </ul>
             
         </nav>
-        
-        <form action="index.php" method="post">
-            <select name="sort">
-                <option value="ORDER BY title ASC">A-Z ascending</option>
-                <option  value="ORDER BY title DESC">A-Z descending</option>
-                <option  value="ORDER BY uploaded_at ASC">Date ascending</option>
-                <option  value="ORDER BY uploaded_at DESC">Date descending</option>
-            </select>
-            <button type="submit">sort</button>
-        </form>
+        <?php if($_SESSION['account_type'] == "admin"):?>
+            <form action="index.php" method="post">
+                <select name="sort">
+                    <option value="ORDER BY title ASC">A-Z ascending</option>
+                    <option  value="ORDER BY title DESC">A-Z descending</option>
+                    <option  value="ORDER BY uploaded_at ASC">Date ascending</option>
+                    <option  value="ORDER BY uploaded_at DESC">Date descending</option>
+                </select>
+                <button type="submit">sort</button>
+            </form>
+        <?php endif?>
         
         <?php
         $query = "SELECT * FROM posts " . $sort;

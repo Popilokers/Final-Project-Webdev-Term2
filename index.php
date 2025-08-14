@@ -1,7 +1,10 @@
 <?php
 
-require('connect.php');
+require_once('connect.php');
 
+session_start();
+
+echo "username:". $_SESSION['username'] ."<br> account type:". $_SESSION['account_type'];
 
 $query = "SELECT * FROM posts ORDER BY updated_at DESC";
 $statement = $db->prepare($query);
@@ -32,7 +35,9 @@ if($statement->execute()){
         <?php while($row = $statement->fetch()):?>
             <div class="post" style="border: black solid 2px; padding: 5px">
                 <h2><a href=""><?=$row['title']?></a></h2>
-                <p><a href="edit.php?post_id=<?=$row['post_id']?>">edit</a></p>
+                <?php if($_SESSION['account_type'] == "admin"):?>
+                    <p><a href="edit.php?post_id=<?=$row['post_id']?>">edit</a></p>
+                <?php endif ?>
                 <p><?=$row['caption']?></p>
                 <img src="" alt="image is supposed to be here"/>
             </div>

@@ -1,7 +1,8 @@
 <?php
 
-?>
 
+?>
+ 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +11,7 @@
     <title>Sign In</title>
 </head>
 <body>
-    <form method="Post" action="#">
+    <form method="Post" action="accountVerify.php">
         <fieldset>
             <label>Username or Email</label>
             <br>
@@ -19,10 +20,13 @@
             <br>
             <label>Password</label>
             <br>
-            <input type="text" name="password"/>
+            <input type="password" name="password"/>
             <br>
             <br>
-            <button type="submit">Sign In</button>
+            <button type="submit" name="account_type" value="not_guest">Sign In</button>
+            <p>OR</p>
+            
+            <button type="submit" name="account_type" value="guest">Sign In As Guest</button>
 
         </fieldset>
     </form>

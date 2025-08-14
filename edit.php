@@ -2,6 +2,7 @@
 
 require('connect.php');
 
+
 $user_type = "";
 
 $mode ="";
@@ -102,6 +103,7 @@ if(!empty($_POST['title']) && !empty($_POST['caption']) && !empty($_POST['catego
     <title>Document</title>
 </head>
 <body>
+    
     <nav>
         <ul>
             <li><a href="index.php">Home Page</a> </li>
